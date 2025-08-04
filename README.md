@@ -6,6 +6,9 @@
 
 ![Flutter](https://img.shields.io/badge/Flutter-3.0+-02569B?style=flat-square&logo=flutter)
 ![macOS](https://img.shields.io/badge/macOS-10.15+-000000?style=flat-square&logo=apple)
+![Build Status](https://img.shields.io/github/actions/workflow/status/MarleneJiang/ban-flavor/build.yml?branch=main&style=flat-square&logo=github)
+![Latest Release](https://img.shields.io/github/v/release/MarleneJiang/ban-flavor?style=flat-square&logo=github)
+![Downloads](https://img.shields.io/github/downloads/MarleneJiang/ban-flavor/total?style=flat-square&logo=github)
 ![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
 
 ## ✨ 特色功能
@@ -69,18 +72,28 @@ lib/
 
 ## 🚀 快速开始
 
-### 环境要求
+### 💾 用户下载
+
+**直接下载使用（推荐用户）**
+1. 访问 [Releases 页面](https://github.com/MarleneJiang/ban-flavor/releases)
+2. 下载最新版本的 `班味检测器-macos.dmg`
+3. 双击打开 DMG 文件，将应用拖拽到 Applications 文件夹
+4. 启动应用并授权摄像头权限
+
+### 🛠️ 开发环境
+
+**环境要求**
 - **macOS 10.15+** (Catalina 或更高版本)
 - **Flutter 3.0+** 
 - **Xcode 14+** (用于 macOS 应用构建)
 - **CocoaPods** (依赖管理)
 
-### 安装步骤
+**安装步骤**
 
 1. **克隆项目**
    ```bash
-   git clone <repository-url>
-   cd photo
+   git clone https://github.com/MarleneJiang/ban-flavor.git
+   cd ban-flavor
    ```
 
 2. **安装依赖**
@@ -103,7 +116,27 @@ lib/
    
    # 发布构建
    flutter build macos --release
+   
+   # 本地构建测试（推荐）
+   ./scripts/build.sh
    ```
+
+### 🤖 自动化构建
+
+**GitHub Actions 工作流**
+- **持续集成**：每次推送代码自动构建和测试
+- **自动发布**：创建标签时自动发布 DMG 安装包
+- **工件上传**：构建产物保留 30-90 天供下载
+
+**发布新版本**
+```bash
+# 使用发布脚本（推荐）
+./scripts/release.sh v1.0.0 "新版本发布说明"
+
+# 或手动操作
+git tag v1.0.0
+git push origin v1.0.0
+```
 
 ### VS Code 任务
 项目预配置了以下开发任务：
@@ -203,7 +236,7 @@ flutter build macos --release --verbose
 ## 📂 文件结构说明
 
 ```
-photo/
+ban-flavor/
 ├── 📱 lib/                    # Dart 源代码
 │   ├── 🚀 main.dart          # 应用入口 + TDesign 配置
 │   ├── 📊 models/            # 数据模型
@@ -213,6 +246,14 @@ photo/
 │   ├── 📋 Info.plist         # 权限与应用信息
 │   ├── 📦 Podfile           # CocoaPods 依赖
 │   └── 🏗️ Runner/           # Xcode 项目文件
+├── 🔄 .github/               # GitHub Actions 工作流
+│   └── workflows/            # 自动化构建和发布
+│       ├── build.yml         # 基础构建流程
+│       ├── build-advanced.yml # 高级构建（代码签名）
+│       └── release.yml       # 版本发布流程
+├── 📜 scripts/               # 构建和发布脚本
+│   ├── build.sh             # 本地构建测试
+│   └── release.sh           # 版本发布脚本
 ├── 🧪 test/                  # 单元测试
 ├── 📝 pubspec.yaml          # Flutter 依赖配置
 ├── 🚫 .gitignore            # Git 忽略规则
@@ -223,15 +264,24 @@ photo/
 
 欢迎为班味检测器贡献代码！
 
+### 快速开始
 1. **Fork 项目** 并创建特性分支
 2. **编写代码** 并确保通过测试
 3. **提交 PR** 并描述您的更改
 4. **代码审查** 通过后即可合并
 
-### 代码规范
+### 开发规范
 - 使用 `dart format` 格式化代码
 - 遵循 Flutter 官方命名约定
 - 为新功能添加相应的注释和文档
+- 提交信息遵循 [Conventional Commits](https://www.conventionalcommits.org/) 规范
+
+### 详细指南
+请查看 [贡献指南](CONTRIBUTING.md) 了解完整的开发流程和规范。
+
+### 开发讨论
+- [GitHub Discussions](https://github.com/MarleneJiang/ban-flavor/discussions) - 功能讨论和问答
+- [Issues](https://github.com/MarleneJiang/ban-flavor/issues) - Bug 报告和功能请求
 
 ## 📄 许可协议
 

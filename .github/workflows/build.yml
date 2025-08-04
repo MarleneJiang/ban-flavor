@@ -1,0 +1,103 @@
+name: Build and Release
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  release:
+    types: [ created ]
+
+jobs:
+  build-macos:
+    runs-on: macos-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.24.3'
+        channel: 'stable'
+        
+    - name: Install dependencies
+      run: |
+        flutter --version
+        flutter pub get
+        
+    - name: Setup CocoaPods
+      run: |
+        cd macos
+        pod install
+        cd ..
+        
+    - name: Run tests
+      run: flutter test
+      
+    - name: Build macOS app
+      run: |
+        flutter build macos --release
+        
+    - name: Create DMG (macOS Installer)
+      run: |
+        # 创建临时目录用于DMG构建
+        mkdir -p dmg_temp
+        
+        # 复制应用到临时目录
+        cp -R build/macos/Build/Products/Release/ban_flavor_detector.app dmg_temp/
+        
+        # 创建应用程序文件夹的符号链接
+        ln -s /Applications dmg_temp/Applications
+        
+        # 创建DMG文件
+        hdiutil create -volname "班味检测器" \
+          -srcfolder dmg_temp \
+          -ov -format UDZO \
+          "班味检测器-macos.dmg"
+          
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: macos-build-${{ github.sha }}
+        path: |
+          build/macos/Build/Products/Release/ban_flavor_detector.app
+          班味检测器-macos.dmg
+        retention-days: 30
+        
+    - name: Upload to Release (on tag)
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          班味检测器-macos.dmg
+        body: |
+          ## 🎭 班味检测器 - ${{ github.ref_name }}
+          
+          ### 📦 安装说明
+          1. 下载 `班味检测器-macos.dmg` 文件
+          2. 双击打开 DMG 文件
+          3. 将应用拖拽到 Applications 文件夹
+          4. 在 Applications 中启动应用
+          5. 首次启动时需要授权摄像头权限
+          
+          ### ✨ 功能特色
+          - 🤖 每日首次解锁自动拍照
+          - 🖼️ 时间线照片画廊
+          - ⚙️ 开机自启动配置
+          - 🎨 抽象艺术风格界面
+          
+          ### 📋 系统要求
+          - macOS 10.15+ (Catalina 或更高版本)
+          - 摄像头设备
+          
+          ### 🔧 使用说明
+          应用会在后台静默运行，每天第一次解锁电脑时自动拍照，记录您的"班味"变化。
+          
+          ---
+          Built with ❤️ using Flutter + GitHub Actions
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

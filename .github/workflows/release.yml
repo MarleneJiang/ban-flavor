@@ -1,0 +1,66 @@
+name: Create Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g., v1.0.0)'
+        required: true
+        type: string
+      release_notes:
+        description: 'Release notes (optional)'
+        required: false
+        type: string
+        default: |
+          ## 🎭 新版本发布
+          
+          ### ✨ 更新内容
+          - 修复已知问题
+          - 性能优化
+          - 用户体验改进
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Update version in pubspec.yaml
+      run: |
+        # 提取版本号（去掉v前缀）
+        VERSION="${{ github.event.inputs.version }}"
+        VERSION_NO_V="${VERSION#v}"
+        
+        # 更新 pubspec.yaml 中的版本
+        sed -i "s/^version: .*/version: ${VERSION_NO_V}+${{ github.run_number }}/" pubspec.yaml
+        
+        # 显示更新后的版本信息
+        echo "Updated version to: ${VERSION_NO_V}+${{ github.run_number }}"
+        grep "^version:" pubspec.yaml
+        
+    - name: Commit version update
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add pubspec.yaml
+        git commit -m "chore: bump version to ${{ github.event.inputs.version }}" || echo "No changes to commit"
+        git push
+        
+    - name: Create and push tag
+      run: |
+        git tag ${{ github.event.inputs.version }}
+        git push origin ${{ github.event.inputs.version }}
+        
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: ${{ github.event.inputs.version }}
+        name: "班味检测器 ${{ github.event.inputs.version }}"
+        body: ${{ github.event.inputs.release_notes }}
+        draft: false
+        prerelease: false
+        generate_release_notes: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

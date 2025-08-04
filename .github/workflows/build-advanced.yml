@@ -1,0 +1,185 @@
+name: Build and Sign (Advanced)
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build-and-sign:
+    runs-on: macos-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.24.3'
+        channel: 'stable'
+        
+    # 可选：如果需要代码签名，请配置以下步骤
+    # - name: Import Code-Signing Certificates
+    #   uses: Apple-Actions/import-codesign-certs@v1
+    #   with:
+    #     p12-file-base64: ${{ secrets.CERTIFICATES_P12 }}
+    #     p12-password: ${{ secrets.CERTIFICATES_P12_PASSWORD }}
+        
+    - name: Install dependencies
+      run: |
+        flutter pub get
+        cd macos && pod install && cd ..
+        
+    - name: Build macOS app (Release)
+      run: |
+        flutter build macos --release
+        
+    # 可选：代码签名步骤（需要Apple Developer账号）
+    # - name: Code Sign App
+    #   run: |
+    #     codesign --force --deep --sign "${{ secrets.DEVELOPER_ID_APPLICATION }}" \
+    #       build/macos/Build/Products/Release/ban_flavor_detector.app
+        
+    - name: Create installer package
+      run: |
+        # 创建更专业的安装包
+        mkdir -p installer/Applications
+        cp -R build/macos/Build/Products/Release/ban_flavor_detector.app installer/
+        
+        # 创建安装脚本
+        cat > installer/install.sh << 'EOF'
+        #!/bin/bash
+        echo "正在安装班味检测器..."
+        cp -R ban_flavor_detector.app /Applications/
+        echo "安装完成！您可以在应用程序文件夹中找到班味检测器。"
+        EOF
+        chmod +x installer/install.sh
+        
+        # 创建卸载脚本
+        cat > installer/uninstall.sh << 'EOF'
+        #!/bin/bash
+        echo "正在卸载班味检测器..."
+        rm -rf /Applications/ban_flavor_detector.app
+        rm -rf ~/Documents/DailyPhotos
+        echo "卸载完成！"
+        EOF
+        chmod +x installer/uninstall.sh
+        
+        # 创建README
+        cat > installer/README.txt << 'EOF'
+        班味检测器 macOS 版本
+        
+        安装说明：
+        1. 双击运行 install.sh 进行安装
+        2. 或者手动将 ban_flavor_detector.app 拖拽到 Applications 文件夹
+        
+        卸载说明：
+        - 运行 uninstall.sh 完全卸载应用和数据
+        
+        系统要求：
+        - macOS 10.15 或更高版本
+        - 摄像头权限
+        
+        首次使用：
+        1. 启动应用后授权摄像头权限
+        2. 可选择是否开机自启动
+        3. 应用将在后台运行，每日首次解锁时自动拍照
+        
+        问题反馈：https://github.com/MarleneJiang/ban-flavor/issues
+        EOF
+        
+    - name: Create DMG with installer
+      run: |
+        # 使用 create-dmg 创建更专业的 DMG
+        brew install create-dmg
+        
+        create-dmg \
+          --volname "班味检测器安装包" \
+          --volicon "installer/ban_flavor_detector.app/Contents/Resources/AppIcon.icns" \
+          --window-pos 200 120 \
+          --window-size 600 400 \
+          --icon-size 100 \
+          --icon "ban_flavor_detector.app" 175 120 \
+          --hide-extension "ban_flavor_detector.app" \
+          --app-drop-link 425 120 \
+          --add-file "安装脚本" "installer/install.sh" 175 250 \
+          --add-file "卸载脚本" "installer/uninstall.sh" 325 250 \
+          --add-file "使用说明" "installer/README.txt" 475 250 \
+          "班味检测器-${GITHUB_REF_NAME:-latest}-macos.dmg" \
+          "installer/" || {
+            # 如果 create-dmg 失败，使用 hdiutil 作为备选方案
+            echo "create-dmg failed, using hdiutil..."
+            hdiutil create -volname "班味检测器" \
+              -srcfolder installer \
+              -ov -format UDZO \
+              "班味检测器-${GITHUB_REF_NAME:-latest}-macos.dmg"
+          }
+          
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: macos-installer-${{ github.sha }}
+        path: |
+          班味检测器-*.dmg
+          installer/
+        retention-days: 90
+        
+    - name: Release
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          班味检测器-*.dmg
+        body: |
+          ## 🎭 班味检测器 - ${{ github.ref_name }}
+          
+          > **专业版安装包，包含完整的安装和卸载脚本**
+          
+          ### 📦 安装方式
+          
+          **方式一：自动安装（推荐）**
+          1. 下载并打开 DMG 文件
+          2. 双击运行"安装脚本"
+          3. 按提示完成安装
+          
+          **方式二：手动安装**
+          1. 下载并打开 DMG 文件  
+          2. 将应用拖拽到 Applications 文件夹
+          3. 在启动台中找到并启动应用
+          
+          ### ✨ 新版本特性
+          - 🚀 更稳定的后台运行机制
+          - 🎨 优化的用户界面体验
+          - 📸 改进的拍照质量和压缩算法
+          - ⚙️ 增强的系统集成功能
+          
+          ### 🔧 使用指南
+          1. **首次启动**：授权摄像头和文件访问权限
+          2. **开机启动**：在设置中启用自动启动功能  
+          3. **查看照片**：点击画廊查看每日拍摄的照片
+          4. **数据管理**：在设置中管理照片存储和导出
+          
+          ### 📋 系统要求
+          - **操作系统**：macOS 10.15+ (Catalina 或更高版本)
+          - **硬件要求**：内置或外接摄像头
+          - **存储空间**：建议预留 100MB 以上空间
+          
+          ### 🛠️ 故障排除
+          - **权限问题**：在系统偏好设置 > 安全性与隐私中检查权限
+          - **无法启动**：尝试在终端运行 `sudo xattr -rd com.apple.quarantine /Applications/ban_flavor_detector.app`
+          - **卸载应用**：运行 DMG 中的"卸载脚本"或手动删除应用
+          
+          ### 🐛 问题反馈
+          如遇到问题，请在 [GitHub Issues](https://github.com/MarleneJiang/ban-flavor/issues) 中反馈。
+          
+          ---
+          
+          **🎭 让每一天的工作都少点班味！**
+          
+          *Built with ❤️ using Flutter + GitHub Actions*
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

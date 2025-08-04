@@ -6,7 +6,7 @@
 
 ### 系统要求
 - macOS 10.15+ (Catalina 或更高版本)
-- Flutter 3.0+
+- Flutter 3.24.5+ (包含 Dart SDK 3.5.0+)
 - Xcode 14+
 - Git
 

@@ -4,7 +4,7 @@
 
 一个基于 **Flutter** 构建的 macOS 应用，通过自动拍照记录每日第一次解锁电脑的瞬间，让"班味"无所遁形。
 
-![Flutter](https://img.shields.io/badge/Flutter-3.0+-02569B?style=flat-square&logo=flutter)
+![Flutter](https://img.shields.io/badge/Flutter-3.24.5+-02569B?style=flat-square&logo=flutter)
 ![macOS](https://img.shields.io/badge/macOS-10.15+-000000?style=flat-square&logo=apple)
 ![Build Status](https://img.shields.io/github/actions/workflow/status/MarleneJiang/ban-flavor/build.yml?branch=main&style=flat-square&logo=github)
 ![Latest Release](https://img.shields.io/github/v/release/MarleneJiang/ban-flavor?style=flat-square&logo=github)
@@ -34,8 +34,8 @@
 ### 核心技术栈
 ```yaml
 # 主框架
-Flutter: 3.0+
-Dart: 3.0+
+Flutter: 3.24.5+
+Dart: 3.5.0+
 
 # macOS 集成
 macos_ui: ^2.0.2
@@ -84,7 +84,7 @@ lib/
 
 **环境要求**
 - **macOS 10.15+** (Catalina 或更高版本)
-- **Flutter 3.0+** 
+- **Flutter 3.24.5+** (包含 Dart SDK 3.5.0+)
 - **Xcode 14+** (用于 macOS 应用构建)
 - **CocoaPods** (依赖管理)
 

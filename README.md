@@ -52,7 +52,7 @@ path_provider: ^2.1.1
 ### 项目结构
 ```
 lib/
-├── main.dart                 # 应用入口 + TDesign 主题配置
+├── main.dart                 # 应用入口
 ├── models/
 │   └── daily_photo.dart      # 照片数据模型
 ├── screens/

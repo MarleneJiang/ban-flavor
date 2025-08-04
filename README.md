@@ -6,7 +6,6 @@
 
 ![Flutter](https://img.shields.io/badge/Flutter-3.0+-02569B?style=flat-square&logo=flutter)
 ![macOS](https://img.shields.io/badge/macOS-10.15+-000000?style=flat-square&logo=apple)
-![TDesign](https://img.shields.io/badge/TDesign-Flutter-1976D2?style=flat-square)
 ![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
 
 ## ✨ 特色功能

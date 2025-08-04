@@ -1,119 +1,470 @@
-# Miscellaneous
-*.class
-*.lock
-*.log
-*.pyc
-*.swp
-.buildlog/
-.history
+# 📂 班味检测器 - Git 忽略规则
 
+# ========================================
+# 🐦 Flutter 相关文件
+# ========================================
 
-
-# Flutter repo-specific
-/bin/cache/
-/bin/internal/bootstrap.bat
-/bin/internal/bootstrap.sh
-/bin/mingit/
-/dev/benchmarks/mega_gallery/
-/dev/bots/.recipe_deps
-/dev/bots/android_tools/
-/dev/devicelab/ABresults*.json
-/dev/docs/doc/
-/dev/docs/flutter.docs.zip
-/dev/docs/lib/
-/dev/docs/pubspec.yaml
-/dev/integration_tests/**/xcuserdata
-/dev/integration_tests/**/Pods
-/packages/flutter/coverage/
-version
-analysis_benchmark.json
-
-# packages file containing multi-root paths
-.packages.generated
-
-# Flutter/Dart/Pub related
+# Flutter/Dart 构建产物
 **/doc/api/
+**/ios/Flutter/.last_build_id
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
-**/generated_plugin_registrant.dart
 .packages
-.pub-preload-cache/
+.pub-cache/
 .pub/
-build/
-flutter_*.png
-linked_*.ds
-unlinked.ds
-unlinked_spec.ds
+/build/
 
-# Android related
-**/android/**/gradle-wrapper.jar
-.gradle/
+# Web 构建产物
+lib/generated_plugin_registrant.dart
+
+# 符号化相关
+app.*.symbols
+
+# Obfuscation related
+app.*.map.json
+
+# Android Studio 配置文件
+.idea
+.gradle
+local.properties
+android.iml
+ios.iml
+
+# IntelliJ IDEA
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# ========================================
+# 🍎 macOS 特有文件
+# ========================================
+
+# macOS 构建产物
+macos/build/
+macos/Flutter/ephemeral/
+**/Flutter/ephemeral/
+
+# Xcode 构建文件
+**/ios/build/
+**/macos/build/
+**/ios/Runner.xcworkspace/xcuserdata/
+**/macos/Runner.xcworkspace/xcuserdata/
+**/ios/Runner.xcodeproj/xcuserdata/
+**/macos/Runner.xcodeproj/xcuserdata/
+**/ios/Runner.xcodeproj/project.xcworkspace/xcuserdata/
+**/macos/Runner.xcodeproj/project.xcworkspace/xcuserdata/
+
+# macOS 系统文件
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+
+# macOS 特有目录
+Icon
+.Spotlight-V100
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# ========================================
+# 📦 依赖管理
+# ========================================
+
+# CocoaPods
+**/ios/Pods/
+**/macos/Pods/
+**/ios/Podfile.lock
+**/macos/Podfile.lock
+**/ios/.symlinks/
+**/macos/.symlinks/
+
+# pub 包管理
+.packages
+pubspec.lock
+
+# ========================================
+# 🔧 开发工具配置
+# ========================================
+
+# Visual Studio Code
+.vscode/launch.json
+.vscode/settings.json
+.vscode/tasks.json
+.vscode/extensions.json
+.vscode/.ropeproject
+
+# Android Studio / IntelliJ
+*.iml
+*.ipr
+*.iws
+.idea/
+android/.idea/
+ios/.idea/
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# Vim
+*.swp
+*.swo
+*~
+
+# ========================================
+# 🎨 TDesign Flutter 相关
+# ========================================
+
+# TDesign 主题缓存
+.tdesign_cache/
+tdesign_theme_cache/
+
+# 自定义主题配置备份
+theme_backup/
+custom_themes/*.backup
+
+# ========================================
+# 📸 应用数据文件
+# ========================================
+
+# 照片存储目录 (保护用户隐私)
+photos/
+daily_photos/
+user_photos/
+*.jpg
+*.jpeg
+*.png
+*.heic
+
+# 用户配置文件
+user_settings.json
+app_config.local
+preferences.plist
+
+# 日志文件
+*.log
+logs/
+debug_logs/
+
+# 数据库文件
+*.db
+*.sqlite
+*.sqlite3
+
+# ========================================
+# 🚀 构建和部署
+# ========================================
+
+# 发布构建
+**/build/
+**/dist/
+coverage/
+
+# 签名文件
+*.p8
+*.p12
+*.mobileprovision
+*.certSigningRequest
+
+# 环境变量文件
+.env
+.env.local
+.env.development
+.env.production
+
+# Firebase 配置
+firebase_options.dart
+google-services.json
+GoogleService-Info.plist
+
+# ========================================
+# 🧪 测试相关
+# ========================================
+
+# 测试覆盖率
+coverage/
+test/coverage/
+lcov.info
+
+# 集成测试截图
+test_driver/screenshots/
+integration_test/screenshots/
+
+# ========================================
+# 📱 平台特定忽略
+# ========================================
+
+# iOS
+**/ios/Flutter/flutter_assets/
+**/ios/Flutter/flutter_export_environment.sh
+**/ios/ServiceDefinitions.json
+**/ios/Runner/GeneratedPluginRegistrant.*
+
+# Android
+**/android/app/debug
+**/android/app/profile
+**/android/app/release
+**/android/gradle-wrapper.jar
+**/android/.gradle
 **/android/captures/
 **/android/gradlew
 **/android/gradlew.bat
 **/android/local.properties
 **/android/**/GeneratedPluginRegistrant.java
 **/android/key.properties
-*.jks
-
-# iOS/XCode related
-**/ios/**/*.mode1v3
-**/ios/**/*.mode2v3
-**/ios/**/*.moved-aside
-**/ios/**/*.pbxuser
-**/ios/**/*.perspectivev3
-**/ios/**/*sync/
-**/ios/**/.sconsign.dblite
-**/ios/**/.tags*
-**/ios/**/.vagrant/
-**/ios/**/DerivedData/
-**/ios/**/Icon?
-**/ios/**/Pods/
-**/ios/**/.symlinks/
-**/ios/**/profile
-**/ios/**/xcuserdata
-**/ios/.generated/
-**/ios/Flutter/.last_build_id
-**/ios/Flutter/App.framework
-**/ios/Flutter/Flutter.framework
-**/ios/Flutter/Flutter.podspec
-**/ios/Flutter/Generated.xcconfig
-**/ios/Flutter/ephemeral
-**/ios/Flutter/app.flx
-**/ios/Flutter/app.zip
-**/ios/Flutter/flutter_assets/
-**/ios/Flutter/flutter_export_environment.sh
-**/ios/ServiceDefinitions.json
-**/ios/Runner/GeneratedPluginRegistrant.*
-
-# macOS
-**/Flutter/ephemeral/
-**/Pods/
-**/macos/Flutter/GeneratedPluginRegistrant.swift
-**/macos/Flutter/ephemeral
-**/xcuserdata/
-
-# Windows
-**/windows/flutter/generated_plugin_registrant.cc
-**/windows/flutter/generated_plugin_registrant.h
-**/windows/flutter/generated_plugins.cmake
 
 # Linux
 **/linux/flutter/generated_plugin_registrant.cc
 **/linux/flutter/generated_plugin_registrant.h
 **/linux/flutter/generated_plugins.cmake
 
-# Coverage
-coverage/
+# Windows
+**/windows/flutter/generated_plugin_registrant.cc
+**/windows/flutter/generated_plugin_registrant.h
+**/windows/flutter/generated_plugins.cmake
 
-# Symbols
-app.*.symbols
+# ========================================
+# 🎭 项目特定文件
+# ========================================
 
-# Exceptions to above rules.
-!**/ios/**/default.mode1v3
-!**/ios/**/default.mode2v3
-!**/ios/**/default.pbxuser
-!**/ios/**/default.perspectivev3
-!/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
-!/dev/ci/**/Gemfile.lock
+# 备份文件
+*_backup.dart
+*_old.dart
+*_temp.dart
+backup/
+
+# 开发时的临时文件
+temp/
+tmp/
+scratch/
+playground/
+
+# 文档生成
+doc/api/
+documentation/generated/
+
+# 性能分析文件
+*.trace
+*.timeline
+
+# ========================================
+# 🔐 安全和密钥
+# ========================================
+
+# API 密钥和敏感信息
+api_keys.dart
+secrets.dart
+*.pem
+*.key
+*.crt
+
+# 证书文件
+certificates/
+keystore/
+*.keystore
+*.jks
+
+# OAuth 配置
+oauth_config.json
+client_secrets.json
+
+# ========================================
+# 📊 分析和监控
+# ========================================
+
+# 崩溃报告
+crashlytics/
+*.crash
+
+# 性能监控
+performance_logs/
+*.perfetto
+
+# 用户行为分析
+analytics_cache/
+user_events.log
+
+# ========================================
+# 🎨 设计资源 (可选)
+# ========================================
+
+# 设计稿源文件 (通常很大)
+# *.sketch
+# *.fig
+# *.psd
+# *.ai
+
+# 图标生成的中间文件
+icon_generation/
+app_icon_temp/
+
+# ========================================
+# 🔧 工具链和脚本
+# ========================================
+
+# 构建脚本生成的文件
+build_scripts/generated/
+automation/logs/
+
+# 版本管理工具
+.fvm/
+
+# Melos (多包管理)
+.melos
+
+# ========================================
+# 🌐 Web 相关 (如果有 Web 版本)
+# ========================================
+
+# Web 构建产物
+**/web/build/
+**/web/dist/
+
+# Service Worker 缓存
+sw.js
+workbox-*.js
+
+# PWA 相关
+manifest.json.bak
+
+# ========================================
+# 📸 班味检测器特有文件
+# ========================================
+
+# 照片存储目录的具体格式
+ban_flavor_*.jpg
+ban_flavor_*.jpeg
+ban_flavor_*.png
+daily_photo_*.jpg
+daily_photo_*.jpeg
+daily_photo_*.png
+
+# SharedPreferences 备份文件
+com.example.ban_flavor_detector.plist
+shared_prefs/
+
+# 相机权限测试文件
+camera_test/
+permission_test/
+
+# ========================================
+# 🎯 macOS camera_macos 插件特有
+# ========================================
+
+# camera_macos 插件生成的临时文件
+**/macos/Runner/camera_temp/
+camera_preview_*.jpg
+camera_capture_*.png
+
+# AVFoundation 相关缓存
+AVFoundation_cache/
+camera_session_*.log
+
+# ========================================
+# 🔄 系统事件监听相关
+# ========================================
+
+# 系统解锁检测日志
+unlock_events.log
+system_events/
+event_monitor_cache/
+
+# Launch at startup 相关
+launch_agents/
+startup_items/
+
+# ========================================
+# 🛠️ 开发调试特有
+# ========================================
+
+# Flutter 热重载缓存
+.flutter-plugins-dependencies.bak
+flutter_build.log
+
+# macOS 开发证书相关
+Developer_ID_*.p12
+Mac_App_Store_*.p12
+embedded.provisionprofile
+
+# Xcode 用户数据
+**/macos/**/*.xcuserstate
+**/macos/**/*.xcuserdatad/
+
+# ========================================
+# 🔧 VS Code 项目特定配置
+# ========================================
+
+# 项目特定的 launch 配置备份
+.vscode/launch.json.backup
+.vscode/tasks.json.backup
+
+# Copilot 指令文件备份
+.github/copilot-instructions.md.backup
+
+# ========================================
+# 📦 依赖问题排查
+# ========================================
+
+# Flutter pub 相关问题排查文件
+pubspec_overrides.yaml
+.pub-cache.bak/
+flutter_doctor_output.txt
+
+# CocoaPods 问题排查
+**/macos/Podfile.lock.backup
+pod_install.log
+pod_update.log
+
+# ========================================
+# 🎨 UI 组件相关 (如果未来添加 TDesign)
+# ========================================
+
+# TDesign Flutter 相关 (预留)
+# .tdesign/
+# tdesign_config.backup
+# custom_theme_*.json.backup
+
+# ========================================
+# 🚀 发布和分发
+# ========================================
+
+# macOS 应用打包
+*.dmg
+*.pkg
+*.app.zip
+dist_macos/
+
+# 版本发布相关
+CHANGELOG.md.backup
+release_notes/
+version_bump.log
+
+# App Store Connect 相关
+metadata/
+screenshots/
+app_store_assets/
+
+# ========================================
+# 🔍 调试和性能分析
+# ========================================
+
+# Flutter Inspector 相关
+flutter_inspector_*.json
+widget_tree_*.json
+
+# 内存泄漏检测
+memory_leaks/
+heap_dumps/
+
+# 性能分析特定文件
+camera_performance.log
+ui_performance.log
+startup_time.log

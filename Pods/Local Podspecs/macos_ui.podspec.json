@@ -1,0 +1,35 @@
+{
+  "name": "macos_ui",
+  "version": "0.1.0",
+  "summary": "Native functionality for the macos_ui Flutter package.",
+  "description": "macos_ui is a Flutter package that provides widgets and themes implementing the current macOS design language.",
+  "homepage": "https://github.com/macosui/macos_ui",
+  "license": {
+    "file": "../LICENSE",
+    "type": "MIT"
+  },
+  "authors": {
+    "GroovinChip": "groovinchip@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/macosui/macos_ui.git",
+    "tag": "0.1.0"
+  },
+  "source_files": "macos_ui/Sources/macos_ui/**/*.swift",
+  "resource_bundles": {
+    "macos_ui_privacy": [
+      "macos_ui/Sources/macos_ui/Resources/PrivacyInfo.xcprivacy"
+    ]
+  },
+  "dependencies": {
+    "FlutterMacOS": []
+  },
+  "platforms": {
+    "osx": "10.11"
+  },
+  "pod_target_xcconfig": {
+    "DEFINES_MODULE": "YES"
+  },
+  "swift_versions": "5.0",
+  "swift_version": "5.0"
+}

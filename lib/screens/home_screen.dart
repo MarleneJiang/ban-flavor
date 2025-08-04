@@ -58,14 +58,14 @@ class _HomeScreenState extends State<HomeScreen> {
         // 处理拍照结果
         if (mounted && result == true) {
           print('✅ 自动拍照成功，准备切换到画廊页面');
-          
+
           // 确保在主线程中更新状态
           if (mounted) {
             setState(() {
               _selectedIndex = 1;
             });
             print('📱 已切换到画廊页面 (index: $_selectedIndex)');
-            
+
             // 等待页面切换完成后再刷新画廊
             await Future.delayed(const Duration(milliseconds: 500));
             if (mounted && _galleryKey.currentState != null) {
